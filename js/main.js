@@ -1,41 +1,55 @@
-const productos = ["mouse", "teclado", "auriculares"]
-const precios = [65000, 72000, 80000]
+const productos = [
+    {
+        "Nombre": "Mouse",
+        "Precio": 50000,
+        "id": 1,
+    },
+   {
+        "Nombre": "Teclado",
+        "Precio": 25000,
+        "id": 2,
+    },
+    
+    {
+        "Nombre": "Auriculares",
+        "Precio": 37200,
+        "id": 3,
+    },
+     {
+        "Nombre": "Monitor",
+        "Precio": 120000,
+        "id": 4,
+    },
+    {
+        "Nombre": "Placa de video",
+        "Precio": 300000,
+        "id": 5,
+    },
+]
 let carrito = []
 
-function mostrarProductos() {
-  let mensaje = "Productos disponibles:\n"
+let productwrapper = document.getElementById ("productwrapper")
 
-  for (let i = 0; i < productos.length; i++) {
-   mensaje = mensaje + (i + 1) + " - " + productos[i] + " Precio: " + precios[i] + "\n"
-  }
-
-  alert(mensaje)
+function visualitem (productsguide){
+    productsguide.forEach(perifericos =>  {
+    const lista = document.createElement ("div")
+    lista.innerHTML = `<div class = "producto">
+                        <h2>${perifericos.Nombre}</h2>
+                        <h3>Precio: ${perifericos.Precio}</h3>
+                        <h4>id: ${perifericos.id}</h4>
+                        <button class = "agregarcarrito" id = "${perifericos.id}"> agregar </button> </div>`
+    productwrapper.appendChild (lista)
+    });
+    document.querySelectorAll(".agregarcarrito").forEach(button => {
+        button.addEventListener("click", function(ev){
+        const idbutton = ev.currentTarget.id
+        const selectproduct = productos.find (producto => producto.id == idbutton)
+        carrito.push (selectproduct)
+        localStorage.setItem("carrito", JSON.stringify(carrito))
+        })
+    });
 }
+visualitem(productos)
 
-function agregarAlCarrito(opcion) {
-  if (opcion >= 1 && opcion <= productos.length) {
-    carrito.push(precios[opcion - 1])
-    alert("Producto agregado al carrito")
-  } else {
-    alert("Opción inválida")
-  }
-}
-function calcularTotal() {
-  let total = 0
 
-  for (let precio of carrito) {
-    total += precio
-  }
 
-  alert("Total a pagar: $" + total)
-}
-mostrarProductos()
-
-let opcionUsuario = prompt("Ingrese el número del producto que desea comprar:");
-agregarAlCarrito(opcionUsuario)
-
-calcularTotal()
-
-let nombre = prompt("Ingrese su nombre")
-
-  console.log("Bienvenido nombre")
